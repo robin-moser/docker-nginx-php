@@ -1,0 +1,9 @@
+#!/command/execlineb -P
+
+
+# create php socket path
+foreground { mkdir -p "/var/run/php/" }
+
+foreground { echo starting php... }
+
+exec /usr/local/bin/php-fpm --nodaemonize
