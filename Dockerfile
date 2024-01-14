@@ -43,6 +43,7 @@ RUN apk add --no-cache \
     php${PHP_VERSION}-xml \
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-zlib \
+    && ln -s /usr/sbin/php${PHP_VERSION} /usr/local/bin/php \
     && ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/local/bin/php-fpm
 
 # remove unused configs
