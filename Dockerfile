@@ -5,7 +5,7 @@
 FROM robinmoser/nginx:latest
 LABEL maintainer="Robin Moser"
 
-ARG PHP_VERSION=81
+ARG PHP_VERSION=83
 
 # default ENV variables
 ENV NGINX_INDEX="index.php"

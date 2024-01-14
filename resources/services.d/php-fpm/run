@@ -1,5 +1,6 @@
 #!/command/execlineb -P
 
+with-contenv
 
 # create php socket path
 foreground { mkdir -p "/var/run/php/" }
