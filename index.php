@@ -3,9 +3,29 @@
 	<head>
 		<title>robinmoser/nginx-php</title>
 		<style>
-			html { color-scheme: light dark; overflow: hidden;  }
-			body { padding: 3em 3em; font-family: Tahoma,Verdana,Arial,sans-serif; }
-			pre  { padding: 3em 0; position: absolute; bottom: 0; border-top: 1px solid }
+			html {
+				color-scheme: light dark;
+			}
+			body {
+				margin: 0;
+				padding: 3rem;
+				min-height: 100vh;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				gap: 1.5rem;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+			}
+			h1, p {
+				margin: 0;
+			}
+			pre {
+				margin: auto 0 0;
+				padding-top: 1.5rem;
+				border-top: 1px solid;
+				white-space: pre-wrap;
+				word-break: break-word;
+			}
 		</style>
 	</head>
 	<body>
