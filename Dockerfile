@@ -2,7 +2,7 @@
 # Dockerfile: robinmoser/nginx-php
 # ++++++++++++++++++++++++++++++++++++++
 
-FROM robinmoser/nginx:1.10
+FROM robinmoser/nginx:1.22
 LABEL maintainer="Robin Moser"
 
 ARG PHP_VERSION=83
