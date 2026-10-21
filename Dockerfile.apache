@@ -1,0 +1,55 @@
+FROM php:8.3.36-apache
+LABEL maintainer="Robin Moser"
+
+ENV TZ="Europe/Berlin" \
+    NGINX_GZIP="on" \
+    NGINX_INDEX="index.php" \
+    NGINX_SERVER_ROOT="" \
+    NGINX_WEB_ROOT="/app/src" \
+    NGINX_DOMAIN=""
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libavif-dev \
+        libfreetype6-dev \
+        libgmp-dev \
+        libicu-dev \
+        libjpeg62-turbo-dev \
+        libmagickwand-dev \
+        libpng-dev \
+        libssh2-1-dev \
+        libssl-dev \
+        libwebp-dev \
+        libxml2-dev \
+        libxpm-dev \
+        libzip-dev \
+        tzdata \
+    && docker-php-ext-configure ftp --with-openssl-dir=/usr \
+    && docker-php-ext-configure gd --with-avif --with-freetype --with-jpeg --with-webp --with-xpm \
+    && docker-php-ext-install -j"$(nproc)" \
+        exif ftp gd gmp intl mysqli soap sockets zip \
+    && pecl install imagick-3.8.1 ssh2-1.5.0 \
+    && docker-php-ext-enable imagick ssh2 \
+    && rm -rf /var/lib/apt/lists/* /tmp/pear
+
+RUN groupmod -g 1000 www-data \
+    && usermod -u 1000 -g 1000 www-data \
+    && mkdir -p /app/src /var/www/health \
+    && chown www-data:www-data /app/src \
+    && a2enmod rewrite headers deflate \
+    && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY config/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY config/apache/php.ini /usr/local/etc/php/conf.d/99-apache.ini
+COPY config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY config/apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+COPY resources/apache/ping.php /var/www/health/ping.php
+COPY --chmod=755 resources/apache/entrypoint.sh /usr/local/bin/apache-php-entrypoint
+
+WORKDIR /app/src
+
+HEALTHCHECK --timeout=2s --interval=10s --start-period=5m --retries=3 \
+    CMD curl --silent --fail http://127.0.0.1/ping -H 'Host: healthcheck.local' || exit 1
+
+ENTRYPOINT ["apache-php-entrypoint"]
+CMD ["apache2-foreground"]

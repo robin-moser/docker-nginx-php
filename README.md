@@ -1,5 +1,7 @@
 # docker-nginx-php
 
+> `apache-php:8.3.36` is a temporary alternative using official PHP while waiting for patched Alpine packages. Build with `Dockerfile.apache`.
+
 ![Build Status](https://img.shields.io/github/actions/workflow/status/robin-moser/docker-nginx-php/docker-release.yml?logo=github&logoColor=white)
 [![Docker Pulls](https://img.shields.io/docker/pulls/robinmoser/nginx-php?logo=docker&logoColor=white&color=blue)](https://hub.docker.com/r/robinmoser/nginx-php)
 
