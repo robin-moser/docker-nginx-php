@@ -2,7 +2,7 @@
 # Dockerfile: robinmoser/nginx-php
 # ++++++++++++++++++++++++++++++++++++++
 
-FROM robinmoser/nginx:1.10
+FROM robinmoser/nginx:1.23
 LABEL maintainer="Robin Moser"
 
 ARG PHP_VERSION=83
@@ -43,7 +43,7 @@ RUN apk add --no-cache \
     php${PHP_VERSION}-xml \
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-zlib \
-    && ln -s /usr/sbin/php${PHP_VERSION} /usr/local/bin/php \
+    && ln -s /usr/bin/php${PHP_VERSION} /usr/local/bin/php \
     && ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/local/bin/php-fpm
 
 # remove unused configs
